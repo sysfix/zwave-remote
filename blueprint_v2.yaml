@@ -1,0 +1,220 @@
+blueprint:
+  name: Z-Wave 6 btn switch
+  description:  |
+    Z-Wave 6 btn switch
+  domain: automation
+  source_url: https://github.com/Bekkie/ha-blueprints/blob/main/automation/robb-smarrt-8-switch-ROBB-ROB_200-007-0.yaml
+  input:
+    remote:
+      name: Remote
+      description: Switch remote to use
+      selector:
+        device:
+          integration: zha
+          model: "ROB_200-007-0"
+          
+    button_1_short:
+      name: Button 1 - short
+      default: []
+      selector:
+        action: {}
+    button_1_long:
+      name: Button 1 - long press (Room select)
+      default: 'Geen'
+      selector:
+        select:
+          multiple: false
+          custom_value: false
+          options:
+            - label: 'Geen'
+              value: 'Geen'
+            - label: 'Woonkamer'
+              value: 'lg_woonkamer'
+            - label: 'Keuken'
+              value: 'lg_keuken'
+            - label: 'Slaapkamer'
+              value: 'lg_slaapkamer'
+            - label: 'Logeerkamer'
+              value: 'lg_logeerkamer'
+            - label: 'Zolder'
+              value: 'lg_zolder'
+
+    button_2_short:
+      name: Button 2 - short
+      default: []
+      selector:
+        action: {}
+    button_2_long:
+      name: Button 2 - long press (Room select)
+      default: []
+      selector:
+        select:
+          multiple: false
+          custom_value: false
+          options:
+            - label: 'Geen'
+              value: 'Geen'
+            - label: 'Woonkamer'
+              value: 'lg_woonkamer'
+            - label: 'Keuken'
+              value: 'lg_keuken'
+            - label: 'Slaapkamer'
+              value: 'lg_slaapkamer'
+            - label: 'Logeerkamer'
+              value: 'lg_logeerkamer'
+            - label: 'Zolder'
+              value: 'lg_zolder'
+
+    button_3_short:
+      name: Button 3 - short
+      default: []
+      selector:
+        action: {}
+    button_3_long:
+      name: Button 3 - long press (Room select)
+      default: []
+      selector:
+        select:
+          multiple: false
+          custom_value: false
+          options:
+            - label: 'Geen'
+              value: 'Geen'
+            - label: 'Woonkamer'
+              value: 'lg_woonkamer'
+            - label: 'Keuken'
+              value: 'lg_keuken'
+            - label: 'Slaapkamer'
+              value: 'lg_slaapkamer'
+            - label: 'Logeerkamer'
+              value: 'lg_logeerkamer'
+            - label: 'Zolder'
+              value: 'lg_zolder'
+
+    button_4_short:
+      name: Button 4 - short
+      default: []
+      selector:
+        action: {}
+    button_4_long:
+      name: Button 4 - long press (Room select)
+      default: []
+      selector:
+        select:
+          multiple: false
+          custom_value: false
+          options:
+            - label: 'Geen'
+              value: 'Geen'
+            - label: 'Woonkamer'
+              value: 'lg_woonkamer'
+            - label: 'Keuken'
+              value: 'lg_keuken'
+            - label: 'Slaapkamer'
+              value: 'lg_slaapkamer'
+            - label: 'Logeerkamer'
+              value: 'lg_logeerkamer'
+            - label: 'Zolder'
+              value: 'lg_zolder'
+
+    button_5_short:
+      name: Button 5 - short
+      default: []
+      selector:
+        action: {}
+    button_5_long:
+      name: Button 5 - long press (Room select)
+      default: []
+      selector:
+        select:
+          multiple: false
+          custom_value: false
+          options:
+            - label: 'Geen'
+              value: 'Geen'
+            - label: 'Woonkamer'
+              value: 'lg_woonkamer'
+            - label: 'Keuken'
+              value: 'lg_keuken'
+            - label: 'Slaapkamer'
+              value: 'lg_slaapkamer'
+            - label: 'Logeerkamer'
+              value: 'lg_logeerkamer'
+            - label: 'Zolder'
+              value: 'lg_zolder'
+
+    button_6_short:
+      name: Button 6 - short
+      default: []
+      selector:
+        action: {}
+    button_6_long:
+      name: Button 6 - long press (Room select)
+      default: []
+      selector:
+        select:
+          multiple: false
+          custom_value: false
+          options:
+            - label: 'Geen'
+              value: 'Geen'
+            - label: 'Woonkamer'
+              value: 'lg_woonkamer'
+            - label: 'Keuken'
+              value: 'lg_keuken'
+            - label: 'Slaapkamer'
+              value: 'lg_slaapkamer'
+            - label: 'Logeerkamer'
+              value: 'lg_logeerkamer'
+            - label: 'Zolder'
+              value: 'lg_zolder'
+
+mode: restart
+max_exceeded: silent
+trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_id: !input "remote"
+  
+action:
+  - variables:
+      button: '{{ trigger.event.data.endpoint_id }}'
+      cmd: '{{ trigger.event.data.command }}'
+      args: '{{ trigger.event.data.args }}'
+      
+  - choose:
+      - conditions:
+          - "{{ button == 1 }}"
+        sequence: !input "button_1_short"
+        
+      - conditions:
+          - "{{ button == 2 }}"
+        sequence: !input "button_2_short"
+        
+      - conditions:
+          - "{{ button == 3 }}"
+        sequence: !input "button_3_short"
+        
+      - conditions:
+          - "{{ button == 4 }}"
+        sequence: !input "button_4_short"
+
+      - conditions:
+          - "{{ button == 5 }}"
+        sequence: !input "button_5_short"
+        
+      - conditions:
+          - "{{ button == 6 }}"
+        sequence: !input "button_6_short"
+      
+      # - conditions:
+      #     - "{{ button == 4 and cmd == 'move_with_on_off' }}"
+      #   sequence:
+      #     - if:
+      #         - condition:
+      #           - '{{ args[11] == "U" }}'
+      #       then: 
+      #           !input "on_button_4_long"
+      #       else:
+      #           !input "off_button_4_long"
